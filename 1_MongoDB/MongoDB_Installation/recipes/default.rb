@@ -16,3 +16,14 @@ directory '/etc/yum.repos.d/' do
  mode '0755'
  action :create
 end
+
+# Step 2 : Create a mongodb.repo file to hold the MongoDB configuration Information. As per docs.mongodb.com the file should be mongodb-org-3.6.repo. Best practice is to use templates for dynamic generation of static text files. (https://docs.chef.io/resource_template.html)
+
+template '/etc/yum.repos.d/mongodb-org-3.6.repo' do
+  source 'mongodb_repo.erb'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
