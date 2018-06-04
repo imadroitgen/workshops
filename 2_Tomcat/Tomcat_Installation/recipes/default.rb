@@ -24,8 +24,7 @@ group 'tomcat' do
   action :create
 end  
 
-
-# Step 2 : Create a user as per the instructions.md. Use the user resource of Chef (Chef Reference -> 
+# Step 2 : Create a user as per the instructions.md. Use the user resource of Chef (Chef Reference -> https://docs.chef.io/resource_user.html)
 user 'tomcat' do
   gid 'tomcat'
   home '/opt/tomcat'
