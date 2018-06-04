@@ -70,3 +70,15 @@ execute 'Update the Tomcat Permissions' do
  EOH
 end
 
+# Instruction 4 : Install the Systemd Unit File
+# Step 1 : The tomcat.service file can be loaded using the Template resource. You can use file resource alternatively but Template resource can be reused across recipes and increases modularity. (Chef Reference -> https://docs.chef.io/resource_template.html)
+
+template '/etc/systemd/system/tomcat.service' do
+  source 'tomcat.service.erb'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+
