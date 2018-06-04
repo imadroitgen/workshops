@@ -2,12 +2,12 @@
 This cookbook achieves the required goal to install MongoDB on a RHEL Based Target System
 
 ## Results
-This cookbook successfully translates the install.rb to a chef code and completes the installation.
-The Chef Resources used in this cookbook are :
-* Directory
-* Template
-* Package
-* Service
+* This cookbook successfully translates the install.rb to a chef code and completes the installation.
+* The Chef Resources used in this cookbook are :
+    * Directory
+    * Template
+    * Package
+    * Service
 
 ## Instructions to run the cookbook
 
