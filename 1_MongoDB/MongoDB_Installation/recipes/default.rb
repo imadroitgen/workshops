@@ -36,3 +36,11 @@ package 'Install MongoDB' do
   package_name 'mongodb-org'
   action :install
 end
+
+# Instruction 3 : Make sure the service is started and configured to run on a system restart.
+# Solution to Instruction 3
+# Step 1 : The Mongod can be ensured to be started on boot using the resource service and actions enable and start. (Chef Reference - https://docs.chef.io/resource_service.html)
+service 'mongod' do
+  action [ :enable, :start ]
+end
+
