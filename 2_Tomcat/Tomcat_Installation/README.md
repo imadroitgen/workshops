@@ -40,3 +40,5 @@ Please follow the below instructions to run the cookbook
     ``` bash
     sudo chef-client -z -r "recipe[Tomcat_Installation]"
     ```
+## Verification
+Execute curl http://localhost:8080
