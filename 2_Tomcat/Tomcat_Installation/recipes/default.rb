@@ -81,4 +81,21 @@ template '/etc/systemd/system/tomcat.service' do
   action :create
 end
 
+# Instruction 5 : Reload Systemd to load the tomcat.service file. 
+# Step 1 :  Use the execute resource to load the file into the systemctl daemon.
+execute 'Systemctl Reload' do
+  command 'sudo systemctl daemon-reload'
+  action :run
+end
+
+# Instruction 6 : Ensure tomcat is started and enabled.
+# Step 1 : Use the service resource to ensure that the tomcat is started and enabled on vm reboot.
+service 'tomcat.service' do
+  action [ :enable, :start ]
+end
+
+
+
+
+
 
