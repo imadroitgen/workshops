@@ -22,7 +22,9 @@ This cookbook achieves the required goal to install MongoDB on a RHEL Based Targ
 Please follow the below instructions to run the cookbook
 
 * Clone this repo on the VM that has ChefDK installed on it:
-     ```
+    ``` bash
+    git clone git@github.com:imadroitgen/workshops.git
+    ``` 
 * Perform the below actions:
     ``` bash
     cd workshops/1_MongoDB/
