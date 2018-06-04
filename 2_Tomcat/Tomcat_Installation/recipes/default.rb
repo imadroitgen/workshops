@@ -32,3 +32,41 @@ user 'tomcat' do
   action :create
 end
 
+# Instruction 3 : Download and Extract the Tomcat Binaries, update the permissions post extraction.
+# Step 1: Download the latest binaries from the remote server to the VM using the remote_file resource. (Chef Referene - https://docs.chef.io/resource_remote_directory.html)
+
+remote_file '/tmp/apache-tomcat-8.5.31.tar.gz' do
+  source 'https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.31/bin/apache-tomcat-8.5.31.tar.gz'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+# Step 2 : Create a directory /opt/tomcat using the directory resource.
+directory '/opt/tomcat' do
+  owner 'tomcat'
+  group 'tomcat'
+  mode '0755'
+  action :create
+end
+
+# Step 3 : Extract the tomcat binary using the execute resource. (Chef Reference -> https://docs.chef.io/resource_execute.html)
+execute 'Unpack Tomcat' do
+  command 'sudo tar xvf /tmp/apache-tomcat-8.5.31.tar.gz -C /opt/tomcat --strip-components=1'
+  action :run 
+end
+
+
+# Step 4 : Update the permissions of the tomcat directories using the execute resource. You can alternatively use Bash resource as well however that is not platform agnostic and needs Bash to be installed on the OS. Execute resource offers compatibility across multiple unix systems as it can determine what shell needs to be run (Chef Reference -> https://docs.chef.io/resource_execute.html) 
+
+execute 'Update the Tomcat Permissions' do
+ command <<-EOH
+ sudo chgrp -R tomcat /opt/tomcat
+ cd /opt/tomcat
+ sudo chmod -R g+r conf
+ sudo chmod g+x conf
+ sudo chown -R tomcat webapps/ work/ temp/ logs/
+ EOH
+end
+
