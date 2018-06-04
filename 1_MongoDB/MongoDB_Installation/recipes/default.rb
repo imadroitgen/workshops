@@ -17,7 +17,7 @@ directory '/etc/yum.repos.d/' do
  action :create
 end
 
-# Step 2 : Create a mongodb.repo file to hold the MongoDB configuration Information. As per docs.mongodb.com the file should be mongodb-org-3.6.repo. Best practice is to use templates for dynamic generation of static text files. (https://docs.chef.io/resource_template.html)
+# Step 2 : Create a mongodb.repo file to hold the MongoDB configuration Information. As per docs.mongodb.com the file should be mongodb-org-3.6.repo. Best practice is to use templates for dynamic generation of static text files. (Chef Reference - https://docs.chef.io/resource_template.html)
 
 template '/etc/yum.repos.d/mongodb-org-3.6.repo' do
   source 'mongodb_repo.erb'
@@ -27,3 +27,12 @@ template '/etc/yum.repos.d/mongodb-org-3.6.repo' do
   action :create
 end
 
+
+# Instruction 2 : Install the MongoDB packages and associated tools
+# Solution to Instruction 2
+# Step 1 : Run the mongodb installation using the yum package. Use the package resource to install the mongodb installation. (Chef Reference - https://docs.chef.io/resource_package.html)
+
+package 'Install MongoDB' do
+  package_name 'mongodb-org'
+  action :install
+end
