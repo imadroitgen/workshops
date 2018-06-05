@@ -5,14 +5,40 @@
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
-unless os.windows?
-  # This is an example test, replace with your own test.
-  describe user('root'), :skip do
-    it { should exist }
-  end
+# Test 1 : Check OpenJDK is Installed
+
+describe package('java-1.7.0-openjdk-devel') do
+  it { should be_installed }
 end
 
-# This is an example test, replace it with your own test.
-describe port(80), :skip do
-  it { should_not be_listening }
+# Test 2 : Check that the Tomcat Group exists
+describe group('tomcat') do
+  it { should exist }
 end
+
+#Test 3 : Check that the Tomcat User exists
+describe user('tomcat') do
+  it { should exist }
+  its ('group') { should eq 'tomcat' }
+  its ('home') { should eq '/opt/tomcat' }
+  its ('shell') { should eq '/bin/nologin' }
+end
+
+# Test 4 : Check if /opt/tomcat directory exists
+describe directory('/opt/tomcat') do
+  it { should exist }
+  its ('owner') { should eq 'tomcat' }
+  its ('group') { should eq 'tomcat' }
+end
+
+# Test 5 : Check if the tomcat service is running
+describe service('tomcat') do
+  it { should be_enabled }
+  it { should be_running }
+end
+
+# Test 6 : Check if the http port is listening
+describe port(8080) do
+  it { should be_listening }
+end
+

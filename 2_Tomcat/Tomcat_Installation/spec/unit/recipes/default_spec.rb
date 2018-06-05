@@ -5,31 +5,48 @@
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
 require 'spec_helper'
+require 'chefspec'
 
 describe 'Tomcat_Installation::default' do
-  context 'When all attributes are default, on Ubuntu 16.04' do
+  context 'When all attributes are default, on Centos7.2' do
     let(:chef_run) do
-      # for a complete list of available platforms and versions see:
-      # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
-      runner = ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04')
-      runner.converge(described_recipe)
-    end
-
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
-    end
-  end
-
-  context 'When all attributes are default, on CentOS 7.4.1708' do
-    let(:chef_run) do
-      # for a complete list of available platforms and versions see:
-      # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
+      ChefSpec::Coverage.start!
       runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
       runner.converge(described_recipe)
     end
-
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
+    
+    it 'installs OpenJDK Java 1.7' do
+      expect(chef_run).to install_package('java-1.7.0-openjdk-devel')
     end
-  end
+
+    it 'creates a Tomcat Group' do
+      expect(chef_run).to create_group('tomcat')
+    end
+
+    it 'creates a Tomcat user' do
+      expect(chef_run).to create_user('tomcat')
+    end
+    
+     it 'creates a directory /opt/tomcat' do
+      expect(chef_run).to create_directory('/opt/tomcat').with(
+        user: 'tomcat',
+        group: 'tomcat',
+        mode: '0755',
+        )
+    end
+
+     it 'creates /etc/systemd/system/tomcat.service' do
+      expect(chef_run).to create_template('/etc/systemd/system/tomcat.service')
+    end
+
+    it 'Enables the Tomcat Service' do
+      expect(chef_run).to enable_service('tomcat.service')
+    end
+
+     it 'Starts the Tomcat Service' do
+      expect(chef_run).to start_service('tomcat.service')
+    end
+
+    
+end
 end

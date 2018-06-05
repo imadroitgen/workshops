@@ -5,10 +5,9 @@ In addition to the mandatory goal it also includes the following Bonus Tasks
 * Testing
   * Inspec Tests
   * ChefSpec Unit Tests
-* Refactor to support multiple operating systems
 
 ## Goal
-* This cookbook successfully translates the install.rb to a chef code and completes the MongoDB installation. It additional supports 100% Unit Test Coverage using ChefSpec and Integration Tests using Inspec.
+* This cookbook successfully translates the install.rb to a chef code and completes the MongoDB installation. It further supports 100% Unit Test Coverage using ChefSpec and Integration Tests using Inspec.
 
 ## Tools and Resources Used
 * The following tools were used to setup the environment.
@@ -30,10 +29,12 @@ In addition to the mandatory goal it also includes the following Bonus Tasks
 
 Please follow the below instructions to run the cookbook
 
-### Option 1 - Running the cookbook on a RHEL/Ubuntu VM
+### Option 1 - Running the cookbook on a RHEL VM
+
+Pre-Requisites -> The VM must have ChefDK, git installed on it.
 
 
-* Clone this repo on the VM that has ChefDK installed on it:
+* Clone this repo on the VM:
     ``` bash
     git clone git@github.com:imadroitgen/workshops.git
     ``` 
@@ -56,5 +57,24 @@ Please follow the below instructions to run the cookbook
    inspec exec test/integration/default/default_test.rb
    ```
 
+### Option 2 - Running the cookbook from Local Machine
+
+Pre-Requisites -> ChefDK, Vagrant and Virtualbox needs to be installed on your local machine
+
+* Clone the git repository
+``` bash
+git clone https://github.com/imadroitgen/workshops
+```
+
+* Change the directory to the cookbook
+``` bash
+cd workshops/1_MongoDB/MongoDB_Installation
+```
+
+* Test the Cookbook
+``` bash
+kitchen test
+```
 ## Verification
-Login to the database using 'mongo' user
+* Run the Unit and Integration Tests as specified above
+* Login to the database using 'mongo' user
