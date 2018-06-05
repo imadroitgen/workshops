@@ -12,3 +12,27 @@
   action :install
  end
 end
+
+# Instruction 2 : Install Flask using the execute resource.
+execute 'Install Flask' do
+  command 'pip install flask'
+  action :run
+end
+
+# Instruction 3 : Download the remote file using the remote_file resource.
+remote_file '/tmp/master.zip' do
+  source 'https://github.com/colincam/Awesome-Appliance-Repair/archive/master.zip'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+# Instruction 4 : Unzip the file and move the AAR to /var/www
+execute 'Unzip the downloaded files' do
+  command <<-EOF
+    unzip -u /tmp/master.zip -d /tmp
+    sudo mv /tmp/Awesome-Appliance-Repair-master/AAR /var/www
+  EOF
+  action :run
+end
