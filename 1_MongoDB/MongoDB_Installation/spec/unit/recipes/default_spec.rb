@@ -15,6 +15,10 @@ describe 'MongoDB_Installation::default' do
       runner.converge(described_recipe)
     end
 
+    it 'creates /etc/yum.repos.d directory' do
+      expect(chef_run).to create_directory('/etc/yum.repos.d/')
+    end
+    
     it 'creates mongodb-org-3.6.repo file' do
       expect(chef_run).to create_template('/etc/yum.repos.d/mongodb-org-3.6.repo')
     end
