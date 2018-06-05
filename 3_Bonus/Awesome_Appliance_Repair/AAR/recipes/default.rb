@@ -17,6 +17,7 @@ end
 execute 'Install Flask' do
   command 'pip install flask'
   action :run
+not_if { ::File.exist?('/usr/local/bin/flask') }
 end
 
 # Instruction 3 : Download the remote file using the remote_file resource.
@@ -26,6 +27,7 @@ remote_file '/tmp/master.zip' do
   group 'root'
   mode '0755'
   action :create
+not_if { ::File.exist?('/tmp/Awesome-Appliance-Repair-master/AAR') }
 end
 
 # Instruction 4 : Unzip the file and move the AAR to /var/www
@@ -35,4 +37,30 @@ execute 'Unzip the downloaded files' do
     sudo mv /tmp/Awesome-Appliance-Repair-master/AAR /var/www
   EOF
   action :run
+not_if { ::File.exist?('/var/www/AAR/') }
 end
+
+# Instruction 5 - Modify the owner and group for the /var/www/AAR dirctory 
+directory '/var/www/AAR' do
+  owner 'www-data'
+  group 'www-data'
+  mode '0755'
+  action :create
+end
+
+# Instruction 6 - Create the AAR_config file
+file '/var/www/AAR/AAR_config.py' do
+  owner 'www-data'
+  group 'www-data'
+  mode '0755'
+  action :create
+end
+
+# Instruction 7 - Create and populate apache.conf file
+# Populate the apache config file
+template '/etc/apache2/sites-enabled/AAR-apache.conf' do
+  source 'apache_conf.erb'
+  action :create
+end
+
+
